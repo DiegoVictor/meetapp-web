@@ -44,7 +44,7 @@ describe('Create page', () => {
     expect(getByAltText('Preview')).toHaveAttribute('src', url);
   });
 
-  it('should be able to create a meetup', async () => {
+  it('checks if meetup is created given title, description, localization, and date', async () => {
     const title = faker.name.title();
     const description = faker.lorem.paragraph();
     const localization = faker.address.streetAddress(2);
