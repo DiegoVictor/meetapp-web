@@ -1,6 +1,6 @@
-export const initial_state = false;
+export const initialState = false;
 
-export default (state = initial_state, action) => {
+export default (state = initialState, action) => {
   switch (action.type) {
     case '@user/SIGN_IN_SUCCESS':
       return true;
