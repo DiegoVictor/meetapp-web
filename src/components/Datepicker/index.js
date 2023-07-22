@@ -3,7 +3,6 @@ import { useField } from '@rocketseat/unform';
 import ReactDatePicker, { registerLocale } from 'react-datepicker';
 import PropTypes from 'prop-types';
 import pt from 'date-fns/locale/pt';
-import 'react-datepicker/dist/react-datepicker.css';
 
 registerLocale('pt', pt);
 
@@ -16,9 +15,6 @@ export default function DatePicker({ name, placeholderText, value, onChange }) {
       name: fieldName,
       ref: ref.current,
       path: 'props.selected',
-      clearValue: pickerRef => {
-        pickerRef.clear();
-      },
     });
   }, [ref.current, fieldName]); // eslint-disable-line
 
