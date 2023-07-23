@@ -3,6 +3,7 @@ import { Redirect, Router, Switch } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 import SignIn from '~/pages/Sign/In';
+import history from '~/services/history';
 import Header from '~/components/Header';
 import Route from './Route';
 import { Container } from '~/styles/theme';
@@ -24,6 +25,7 @@ export default () => {
             return <SignIn />;
           }}
         />
+        <Route path="/signup" component={SignUp} exact />
       </Container>
     </Router>
   );
