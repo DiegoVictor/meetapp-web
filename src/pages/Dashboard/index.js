@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { format, parseISO } from 'date-fns';
+import { MdAddCircleOutline, MdChevronRight } from 'react-icons/md';
+import { Link } from 'react-router-dom';
 import pt from 'date-fns/locale/pt-BR';
 
 import api from '~/services/api';
@@ -26,6 +28,13 @@ export default () => {
 
   return (
     <Container>
+      <Header>
+        <h2>Meus meetups</h2>
+        <Link to="/create" className="btn" data-testid="new">
+          <MdAddCircleOutline size="17" />
+          Novo meetup
+        </Link>
+      </Header>
     </Container>
   );
 };
