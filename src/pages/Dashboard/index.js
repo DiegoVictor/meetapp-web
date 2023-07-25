@@ -35,6 +35,24 @@ export default () => {
           Novo meetup
         </Link>
       </Header>
+
+      <ul>
+        <li>
+          {meetups.map(meetup => (
+            <Link
+              key={meetup.id}
+              to={`/meetups/${meetup.id}`}
+              data-testid={`meetup_${meetup.id}`}
+            >
+              <span title={meetup.title}>{meetup.title}</span>
+              <time data-testid={`date_${meetup.id}`}>
+                {meetup.formatted_date}
+                <MdChevronRight color="#FFF" size="24" />
+              </time>
+            </Link>
+          ))}
+        </li>
+      </ul>
     </Container>
   );
 };
