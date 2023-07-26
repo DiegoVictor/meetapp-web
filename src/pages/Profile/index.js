@@ -4,6 +4,15 @@ import { useDispatch, useSelector } from 'react-redux';
 import * as Yup from 'yup';
 
 import { Container } from './styles';
+// Test if is empty or have the minimun length required
+Yup.addMethod(Yup.string, 'emptyMin', function emptyMin(min, message) {
+  return this.test('empty_or_min', message, value => {
+    if (value.length > 0 && value.length < min) {
+      return false;
+    }
+    return true;
+  });
+});
 
 const schema = Yup.object().shape(
   {
