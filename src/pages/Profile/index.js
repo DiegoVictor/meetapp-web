@@ -1,9 +1,13 @@
 import React from 'react';
 import { MdArrowBack, MdSave } from 'react-icons/md';
 import { useDispatch, useSelector } from 'react-redux';
+import { Form, Input } from '@rocketseat/unform';
 import * as Yup from 'yup';
 
+import history from '~/services/history';
+import { updateProfileRequest } from '~/store/actions/user';
 import { Container } from './styles';
+
 // Test if is empty or have the minimun length required
 Yup.addMethod(Yup.string, 'emptyMin', function emptyMin(min, message) {
   return this.test('empty_or_min', message, value => {
@@ -61,6 +65,7 @@ export default () => {
           <MdArrowBack color="#FFF" size="24" />
         </button>
       </div>
+      </Form>
     </Container>
   );
 };
