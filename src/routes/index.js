@@ -3,6 +3,7 @@ import { Redirect, Router, Switch } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 import Dashboard from '~/pages/Dashboard';
+import Profile from '~/pages/Profile';
 import SignIn from '~/pages/Sign/In';
 import SignUp from '~/pages/Sign/Up';
 import history from '~/services/history';
@@ -30,6 +31,7 @@ export default () => {
         <Route path="/signup" component={SignUp} exact />
 
         <Route path="/dashboard" component={Dashboard} privated />
+        <Route path="/profile" component={Profile} privated />
       </Container>
     </Router>
   );
