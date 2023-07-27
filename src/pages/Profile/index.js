@@ -65,6 +65,35 @@ export default () => {
           <MdArrowBack color="#FFF" size="24" />
         </button>
       </div>
+      <Form
+        initialData={user}
+        schema={schema}
+        onSubmit={data => {
+          dispatch(updateProfileRequest(data));
+        }}
+      >
+        <Input name="name" placeholder="Nome completo" type="text" />
+        <Input
+          name="email"
+          placeholder="Digite seu melhor email"
+          type="email"
+        />
+
+        <hr />
+        <Input name="old_password" placeholder="Senha atual" type="password" />
+        <Input name="password" placeholder="Nova senha" type="password" />
+        <Input
+          name="confirm_password"
+          placeholder="Confirme de senha"
+          type="password"
+        />
+
+        <div>
+          <button type="submit">
+            <MdSave size="17" />
+            Salvar Perfil
+          </button>
+        </div>
       </Form>
     </Container>
   );
