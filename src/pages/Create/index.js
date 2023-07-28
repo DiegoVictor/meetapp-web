@@ -1,4 +1,5 @@
 import React, { useCallback, useState } from 'react';
+import { MdArrowBack, MdCameraAlt, MdSave } from 'react-icons/md';
 import api from '~/services/api';
 import { Container, ImagePicker } from './styles';
 
@@ -25,6 +26,16 @@ export default () => {
 
   return (
     <Container>
+      <div>
+        <button
+          data-testid="back"
+          type="button"
+          className="unstyled"
+          onClick={() => history.goBack()}
+        >
+          <MdArrowBack color="#FFF" size="24" />
+        </button>
+      </div>
     </Container>
   );
 };
