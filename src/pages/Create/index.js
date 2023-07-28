@@ -1,10 +1,13 @@
 import React, { useCallback, useState } from 'react';
 import { MdArrowBack, MdCameraAlt, MdSave } from 'react-icons/md';
+import { useDispatch } from 'react-redux';
 import * as Yup from 'yup';
 
+import history from '~/services/history';
+import { upsertMeetup } from '~/store/actions/meetup';
 import api from '~/services/api';
-
 import { Container, ImagePicker } from './styles';
+
 const schema = Yup.object().shape({
   date: Yup.date().required('O campo data é obrigatório'),
   description: Yup.string()
@@ -17,6 +20,7 @@ const schema = Yup.object().shape({
 });
 
 export default () => {
+  const dispatch = useDispatch();
   const [meetup, setMeetup] = useState({});
   const [preview, setPreview] = useState(null);
 
@@ -49,6 +53,21 @@ export default () => {
           <MdArrowBack color="#FFF" size="24" />
         </button>
       </div>
+      <Form
+        initialData={meetup}
+        schema={schema}
+        onSubmit={data => {
+          if (typeof meetup.banner_id === 'number') {
+            dispatch(
+              upsertMeetup({
+                ...meetup,
+                ...data,
+              })
+            );
+          }
+        }}
+      >
+      </Form>
     </Container>
   );
 };
