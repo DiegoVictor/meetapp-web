@@ -94,6 +94,12 @@ export default () => {
           onChange={e => setMeetup({ ...meetup, description: e.target.value })}
         />
         <Input name="localization" placeholder="Localização" type="text" />
+        <div>
+          <button type="submit">
+            <MdSave size="17" />
+            Salvar meetup
+          </button>
+        </div>
       </Form>
     </Container>
   );
