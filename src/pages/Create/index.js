@@ -83,6 +83,17 @@ export default () => {
             onChange={uploadBanner}
           />
         </ImagePicker>
+
+        <Input name="title" type="text" placeholder="Título do Meetup" />
+        <Input
+          name="description"
+          multiline
+          placeholder="Descrição completa"
+          rows={10}
+          value={meetup.description}
+          onChange={e => setMeetup({ ...meetup, description: e.target.value })}
+        />
+        <Input name="localization" placeholder="Localização" type="text" />
       </Form>
     </Container>
   );
