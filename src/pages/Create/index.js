@@ -4,6 +4,7 @@ import { useDispatch } from 'react-redux';
 import { Form, Input } from '@rocketseat/unform';
 import * as Yup from 'yup';
 
+import Datepicker from '~/components/Datepicker';
 import history from '~/services/history';
 import { upsertMeetup } from '~/store/actions/meetup';
 import api from '~/services/api';
@@ -92,6 +93,17 @@ export default () => {
           rows={10}
           value={meetup.description}
           onChange={e => setMeetup({ ...meetup, description: e.target.value })}
+        />
+        <Datepicker
+          name="date"
+          placeholderText="Data do evento"
+          value={meetup.date}
+          onChange={value => {
+            setMeetup({
+              ...meetup,
+              date: value,
+            });
+          }}
         />
         <Input name="localization" placeholder="Localização" type="text" />
         <div>
