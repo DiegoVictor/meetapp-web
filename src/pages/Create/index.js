@@ -1,6 +1,7 @@
 import React, { useCallback, useState } from 'react';
 import { MdArrowBack, MdCameraAlt, MdSave } from 'react-icons/md';
 import { useDispatch } from 'react-redux';
+import { Form, Input } from '@rocketseat/unform';
 import * as Yup from 'yup';
 
 import history from '~/services/history';
@@ -67,6 +68,21 @@ export default () => {
           }
         }}
       >
+        <ImagePicker htmlFor="banner">
+          {preview && <img src={preview} alt="Preview" />}
+          <div>
+            <MdCameraAlt size="54" />
+            <span>Selecionar imagem</span>
+          </div>
+          <Input
+            data-testid="file"
+            accept="image/*"
+            id="banner"
+            name="banner"
+            type="file"
+            onChange={uploadBanner}
+          />
+        </ImagePicker>
       </Form>
     </Container>
   );
