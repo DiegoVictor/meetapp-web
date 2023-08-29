@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { isBefore, format, parseISO } from 'date-fns';
 import api from '~/services/api';
+import { Container } from './styles';
 
 export default () => {
   const match = useRouteMatch();
@@ -28,4 +29,9 @@ export default () => {
       });
     })();
   }, [id]);
+
+  return (
+    <Container>
+    </Container>
+  );
 };
