@@ -10,7 +10,7 @@ import { Link, useRouteMatch } from 'react-router-dom';
 import pt from 'date-fns/locale/pt-BR';
 
 import api from '~/services/api';
-import { Container } from './styles';
+import { Container, Description, Header } from './styles';
 
 export default () => {
   const match = useRouteMatch();
@@ -65,6 +65,9 @@ export default () => {
       </Header>
 
       {meetup.banner && <img src={meetup.banner.url} alt={meetup.title} />}
+
+      <Description>{meetup.description}</Description>
+
     </Container>
   );
 };
