@@ -1,5 +1,14 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { isBefore, format, parseISO } from 'date-fns';
+import {
+  MdArrowBack,
+  MdDeleteForever,
+  MdEdit,
+} from 'react-icons/md';
+import { useDispatch } from 'react-redux';
+import { Link, useRouteMatch } from 'react-router-dom';
+import pt from 'date-fns/locale/pt-BR';
+
 import api from '~/services/api';
 import { Container } from './styles';
 
@@ -32,6 +41,29 @@ export default () => {
 
   return (
     <Container>
+      <Header>
+        <h2>
+          <Link to="/dashboard" data-testid="dashboard">
+            <MdArrowBack color="#FFF" size="24" />
+          </Link>
+          {meetup.title}
+        </h2>
+        <div>
+          {!past && (
+            <Link to={`/meetups/${id}/edit`} className="btn blue">
+              <MdEdit size="17" />
+              Editar
+            </Link>
+          )}
+          {!past && (
+            <button type="button" onClick={() => dispatch(cancelMeetup(id))}>
+              <MdDeleteForever size="17" />
+              Cancelar
+            </button>
+          )}
+        </div>
+      </Header>
+
     </Container>
   );
 };
