@@ -64,6 +64,7 @@ export default () => {
         </div>
       </Header>
 
+      {meetup.banner && <img src={meetup.banner.url} alt={meetup.title} />}
     </Container>
   );
 };
