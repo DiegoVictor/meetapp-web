@@ -4,13 +4,16 @@ import {
   MdArrowBack,
   MdDeleteForever,
   MdEdit,
+  MdEvent,
+  MdPlace,
 } from 'react-icons/md';
 import { useDispatch } from 'react-redux';
 import { Link, useRouteMatch } from 'react-router-dom';
 import pt from 'date-fns/locale/pt-BR';
 
+import { cancelMeetup } from '~/store/actions/meetup';
 import api from '~/services/api';
-import { Container, Description, Header } from './styles';
+import { Container, Description, Footer, Header } from './styles';
 
 export default () => {
   const match = useRouteMatch();
@@ -68,6 +71,16 @@ export default () => {
 
       <Description>{meetup.description}</Description>
 
+      <Footer>
+        <time>
+          <MdEvent size="16" />
+          <span data-testid="date">{meetup.formatted_date}</span>
+        </time>
+        <span>
+          <MdPlace size="16" />
+          <span data-testid="localization">{meetup.localization}</span>
+        </span>
+      </Footer>
     </Container>
   );
 };
