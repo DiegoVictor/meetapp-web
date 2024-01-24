@@ -2,6 +2,7 @@ import React from 'react';
 import { Redirect, Router, Switch } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
+import Create from '~/pages/Create';
 import Dashboard from '~/pages/Dashboard';
 import Profile from '~/pages/Profile';
 import SignIn from '~/pages/Sign/In';
@@ -32,6 +33,7 @@ export default () => {
 
         <Route path="/dashboard" component={Dashboard} privated />
         <Route path="/profile" component={Profile} privated />
+        <Route path="/create" component={Create} privated />
       </Container>
     </Router>
   );
