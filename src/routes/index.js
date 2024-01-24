@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 
 import Create from '~/pages/Create';
 import Dashboard from '~/pages/Dashboard';
+import Details from '~/pages/Details';
 import Profile from '~/pages/Profile';
 import SignIn from '~/pages/Sign/In';
 import SignUp from '~/pages/Sign/Up';
@@ -34,6 +35,10 @@ export default () => {
         <Route path="/dashboard" component={Dashboard} privated />
         <Route path="/profile" component={Profile} privated />
         <Route path="/create" component={Create} privated />
+
+        <Switch>
+          <Route path="/meetups/:id" component={Details} privated />
+        </Switch>
       </Container>
     </Router>
   );
