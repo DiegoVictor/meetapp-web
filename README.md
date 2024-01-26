@@ -1,30 +1,10 @@
-# API
-Clone and configure the API:
-* [API](https://github.com/DiegoVictor/meetapp-api)
-> For more information about the API installation and configuration just follow its README instructions.
-
-
-Remember to update the `src/services/api.js` with the same server url and port configured in the API. Start the API server case you don't have did it yet:
-```
-meetapp-api$ yarn dev
-```
-
-# Install
-Install dependencies:
-```
-meetapp-web$ yarn
-```
-
-# Start up
-Now you are ready to start the app:
-```
-meetapp-web$ yarn start
-```
-
-# Reactotron
-This project is configured with [Reactotron](https://github.com/infinitered/reactotron), just open the Reactotron GUI, after the app is up and running just access it and Reactotron will identify your connection.
-
-# Tests
-```
-meetapp-web$ yarn test
-```
+# [Web] Meetapp
+[![GitHub Workflow Status](https://img.shields.io/github/workflow/status/DiegoVictor/meetapp-web/Pipeline?logo=github&style=flat-square)](https://github.com/DiegoVictor/meetapp-web/actions)
+[![reactjs](https://img.shields.io/badge/reactjs-16.10.2-61dafb?style=flat-square&logo=react)](https://reactjs.org/)
+[![styled-components](https://img.shields.io/badge/styled_components-4.4.0-db7b86?style=flat-square&logo=styled-components)](https://styled-components.com/)
+[![eslint](https://img.shields.io/badge/eslint-6.8.0-4b32c3?style=flat-square&logo=eslint)](https://eslint.org/)
+[![airbnb-style](https://flat.badgen.net/badge/style-guide/airbnb/ff5a5f?icon=airbnb)](https://github.com/airbnb/javascript)
+[![jest](https://img.shields.io/badge/jest-24.8.0-brightgreen?style=flat-square&logo=jest)](https://jestjs.io/)
+[![coverage](https://img.shields.io/codecov/c/gh/DiegoVictor/meetapp-web?logo=codecov&style=flat-square)](https://codecov.io/gh/DiegoVictor/meetapp-web)
+[![MIT License](https://img.shields.io/badge/license-MIT-green?style=flat-square)](https://github.com/DiegoVictor/meetapp-web/blob/master/LICENSE)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
