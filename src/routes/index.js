@@ -3,6 +3,7 @@ import { Redirect, Router, Switch } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 import Create from '~/pages/Create';
+import Edit from '~/pages/Edit';
 import Dashboard from '~/pages/Dashboard';
 import Details from '~/pages/Details';
 import Profile from '~/pages/Profile';
@@ -37,6 +38,7 @@ export default () => {
         <Route path="/create" component={Create} privated />
 
         <Switch>
+          <Route path="/meetups/:id/edit" component={Edit} privated />
           <Route path="/meetups/:id" component={Details} privated />
         </Switch>
       </Container>
