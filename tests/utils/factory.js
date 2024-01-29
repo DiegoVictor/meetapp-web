@@ -5,8 +5,8 @@ factory.define(
   'User',
   {},
   {
-    id: faker.datatype.number,
-    name: faker.name.findName,
+    id: faker.number.int,
+    name: faker.person.fullName,
     email: faker.internet.email,
     password: faker.internet.password,
   }
@@ -16,15 +16,15 @@ factory.define(
   'Meetup',
   {},
   {
-    id: faker.datatype.number,
+    id: faker.number.int,
     title: faker.lorem.words,
     description: faker.lorem.paragraph,
-    localization: faker.address.streetAddress,
+    localization: faker.location.streetAddress,
     date: faker.date.future,
-    banner_id: faker.datatype.number,
-    url: faker.image.imageUrl,
+    banner_id: faker.number.int,
+    url: faker.image.url,
     banner: {
-      url: faker.image.imageUrl,
+      url: faker.image.url,
     },
   }
 );

@@ -14,7 +14,7 @@ describe('Signed reducer', () => {
     const { name, email } = await factory.attrs('User');
     const state = reducer(
       initialState,
-      signInSuccess(faker.random.alphaNumeric(16), { name, email })
+      signInSuccess(faker.string.alphanumeric(16), { name, email })
     );
 
     expect(state).toBe(true);

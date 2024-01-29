@@ -28,7 +28,7 @@ describe('User saga', () => {
   });
 
   it('should be able to login', async () => {
-    const token = faker.random.alphaNumeric(32);
+    const token = faker.string.alphanumeric(32);
     const dispatch = jest.fn();
     const user = await factory.attrs('User');
 
@@ -142,7 +142,7 @@ describe('User saga', () => {
   });
 
   it('should be able to store the token', async () => {
-    const token = faker.random.alphaNumeric(32);
+    const token = faker.string.alphanumeric(32);
 
     setToken({ payload: { user: { token } } });
     expect(api.defaults.headers.Authorization).toBe(`Bearer ${token}`);

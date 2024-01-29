@@ -15,7 +15,7 @@ describe('Header component', () => {
   useDispatch.mockReturnValue(dispatch);
 
   const user = {
-    name: faker.name.findName(),
+    name: faker.person.fullName(),
   };
   useSelector.mockImplementation(cb => {
     return cb({ user });

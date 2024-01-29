@@ -16,7 +16,7 @@ describe('User reducer', () => {
 
   it('SIGN_IN_SUCCESS', async () => {
     const { name, email } = await factory.attrs('User');
-    const token = faker.random.alphaNumeric(16);
+    const token = faker.string.alphanumeric(16);
 
     const state = reducer(initialState, signInSuccess(token, { name, email }));
 
