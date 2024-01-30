@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, fireEvent, wait } from '@testing-library/react';
+import { render, fireEvent, waitFor } from '@testing-library/react';
 import { useDispatch, useSelector } from 'react-redux';
 import { faker } from '@faker-js/faker';
 import { MemoryRouter, Router } from 'react-router-dom';
@@ -28,7 +28,7 @@ describe('Header component', () => {
       </MemoryRouter>
     );
 
-    await wait(() => expect(getByTestId('logout')).toBeInTheDocument());
+    await waitFor(() => expect(getByTestId('logout')).toBeInTheDocument());
 
     fireEvent.click(getByTestId('logout'));
 
@@ -42,7 +42,7 @@ describe('Header component', () => {
       </Router>
     );
 
-    await wait(() => expect(getByTestId('dashboard')).toBeInTheDocument());
+    await waitFor(() => expect(getByTestId('dashboard')).toBeInTheDocument());
 
     fireEvent.click(getByTestId('dashboard'));
 
