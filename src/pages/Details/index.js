@@ -9,7 +9,7 @@ import {
 } from 'react-icons/md';
 import { useDispatch } from 'react-redux';
 import { Link, useRouteMatch } from 'react-router-dom';
-import pt from 'date-fns/locale/pt-BR';
+import { pt } from 'date-fns/locale';
 
 import { cancelMeetup } from '~/store/actions/meetup';
 import api from '~/services/api';

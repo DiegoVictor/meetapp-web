@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { format, parseISO } from 'date-fns';
 import { MdAddCircleOutline, MdChevronRight } from 'react-icons/md';
 import { Link } from 'react-router-dom';
-import pt from 'date-fns/locale/pt-BR';
+import { pt } from 'date-fns/locale';
 
 import api from '~/services/api';
 import { Container, Header } from './styles';

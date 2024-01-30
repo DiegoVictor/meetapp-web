@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { useField } from '@rocketseat/unform';
 import ReactDatePicker, { registerLocale } from 'react-datepicker';
 import PropTypes from 'prop-types';
-import pt from 'date-fns/locale/pt';
+import { pt } from 'date-fns/locale';
 
 registerLocale('pt', pt);
 
