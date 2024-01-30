@@ -2,15 +2,16 @@ import React from 'react';
 import { Redirect, Router, Switch } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
-import Create from '~/pages/Create';
-import Edit from '~/pages/Edit';
-import Dashboard from '~/pages/Dashboard';
-import Details from '~/pages/Details';
-import Profile from '~/pages/Profile';
-import SignIn from '~/pages/Sign/In';
-import SignUp from '~/pages/Sign/Up';
+import { Container } from '~/styles/theme';
+import { Create } from '~/pages/Create';
+import { Edit } from '~/pages/Edit';
+import { Dashboard } from '~/pages/Dashboard';
+import { Details } from '~/pages/Details';
+import { Profile } from '~/pages/Profile';
+import { SignIn } from '~/pages/Sign/In';
+import { SignUp } from '~/pages/Sign/Up';
 import history from '~/services/history';
-import Header from '~/components/Header';
+import { Header } from '~/components/Header';
 import Route from './Route';
 import { Container } from '~/styles/theme';
 

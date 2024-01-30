@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import { Form, Input } from '@rocketseat/unform';
 import * as Yup from 'yup';
 
-import Datepicker from '~/components/Datepicker';
+import { DatePicker } from '~/components/Datepicker';
 import history from '~/services/history';
 import { upsertMeetup } from '~/store/actions/meetup';
 import api from '~/services/api';
@@ -21,7 +21,7 @@ const schema = Yup.object().shape({
     .required('O campo título é obrigatório'),
 });
 
-export default () => {
+export function Create() {
   const dispatch = useDispatch();
   const [meetup, setMeetup] = useState({});
   const [preview, setPreview] = useState(null);
@@ -94,7 +94,7 @@ export default () => {
           value={meetup.description}
           onChange={e => setMeetup({ ...meetup, description: e.target.value })}
         />
-        <Datepicker
+        <DatePicker
           name="date"
           placeholderText="Data do evento"
           value={meetup.date}
@@ -115,4 +115,4 @@ export default () => {
       </Form>
     </Container>
   );
-};
+}

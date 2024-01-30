@@ -15,7 +15,7 @@ import { cancelMeetup } from '~/store/actions/meetup';
 import api from '~/services/api';
 import { Container, Description, Footer, Header } from './styles';
 
-export default () => {
+export function Details() {
   const match = useRouteMatch();
   const dispatch = useDispatch();
   const { id } = match.params;
@@ -83,4 +83,4 @@ export default () => {
       </Footer>
     </Container>
   );
-};
+}

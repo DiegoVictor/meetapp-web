@@ -6,7 +6,7 @@ import pt from 'date-fns/locale/pt';
 
 registerLocale('pt', pt);
 
-export default function DatePicker({ name, placeholderText, value, onChange }) {
+export function DatePicker({ name, placeholderText, value, onChange }) {
   const ref = useRef(null);
   const { fieldName, registerField, error } = useField(name);
 

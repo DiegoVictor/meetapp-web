@@ -7,7 +7,7 @@ import Logo from '~/assets/logo.svg';
 import { signOut } from '~/store/actions/user';
 import { Container } from './styles';
 
-export default () => {
+export function Header() {
   const dispatch = useDispatch();
   const user = useSelector(state => {
     return state.user;
@@ -37,4 +37,4 @@ export default () => {
       </div>
     </Container>
   );
-};
+}

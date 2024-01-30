@@ -3,8 +3,8 @@ import { useSelector } from 'react-redux';
 import { Route as ReactRoute, Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-const Route = ({ privated, component: Component, ...props }) => {
-  const signed = useSelector(state => state.signed);
+function Route({ privated, component: Component, ...props }) {
+  const signed = useSelector((state) => state.signed);
 
   return (
     <ReactRoute
@@ -24,7 +24,7 @@ const Route = ({ privated, component: Component, ...props }) => {
       }}
     />
   );
-};
+}
 
 Route.propTypes = {
   privated: PropTypes.bool,

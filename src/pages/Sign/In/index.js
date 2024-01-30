@@ -5,7 +5,7 @@ import { Form, Input } from '@rocketseat/unform';
 import * as Yup from 'yup';
 
 import { signInRequest } from '~/store/actions/user';
-import Centralize from '~/components/Centralize';
+import { Centralize } from '~/components/Centralize';
 import Logo from '~/assets/logo.svg';
 import { Box } from '../styles';
 
@@ -16,7 +16,7 @@ const schema = Yup.object().shape({
   password: Yup.string().required('A senha é obrigatória'),
 });
 
-export default () => {
+export function SignIn() {
   const dispatch = useDispatch();
 
   return (
@@ -42,4 +42,4 @@ export default () => {
       </Box>
     </Centralize>
   );
-};
+}

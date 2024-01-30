@@ -6,13 +6,13 @@ import { Form, Input } from '@rocketseat/unform';
 import { useRouteMatch } from 'react-router-dom';
 import * as Yup from 'yup';
 
-import Datepicker from '~/components/Datepicker';
+import { DatePicker } from '~/components/Datepicker';
 import { upsertMeetup } from '~/store/actions/meetup';
 import api from '~/services/api';
 import history from '~/services/history';
 import { Container, ImagePicker } from './styles';
 
-export default () => {
+export function Edit() {
   const match = useRouteMatch();
   const dispatch = useDispatch();
   const { id } = match.params;
@@ -116,7 +116,7 @@ export default () => {
           value={meetup.description}
           onChange={e => setMeetup({ ...meetup, description: e.target.value })}
         />
-        <Datepicker
+        <DatePicker
           name="date"
           placeholderText="Data do evento"
           value={meetup.date}
@@ -137,4 +137,4 @@ export default () => {
       </Form>
     </Container>
   );
-};
+}

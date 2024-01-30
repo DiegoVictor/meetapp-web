@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { Container } from './styles';
 
-export default function Centralize({ children }) {
+export function Centralize({ children }) {
   return <Container>{children}</Container>;
 }
 

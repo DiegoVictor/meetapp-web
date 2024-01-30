@@ -49,7 +49,7 @@ const schema = Yup.object().shape(
   ['old_password', 'password']
 );
 
-export default () => {
+export function Profile() {
   const dispatch = useDispatch();
   const user = useSelector(state => state.user);
 
@@ -97,4 +97,4 @@ export default () => {
       </Form>
     </Container>
   );
-};
+}
