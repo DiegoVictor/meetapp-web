@@ -15,7 +15,7 @@ describe('Meetup saga', () => {
   const apiMock = new MockAdapter(api);
 
   it('should be able to cancel a meetup', async () => {
-    const id = faker.datatype.number();
+    const id = faker.number.int();
     const push = jest.spyOn(history, 'push');
 
     apiMock.onDelete(`meetups/${id}`).reply(200, { id });
@@ -25,7 +25,7 @@ describe('Meetup saga', () => {
   });
 
   it('should not be able cancel a meetup', async () => {
-    const id = faker.datatype.number();
+    const id = faker.number.int();
     const error = jest.spyOn(toast, 'error');
 
     apiMock.onDelete(`meetups/${id}`).reply(401, {
@@ -39,7 +39,7 @@ describe('Meetup saga', () => {
   });
 
   it('should be able to update a meetup', async () => {
-    const id = faker.datatype.number();
+    const id = faker.number.int();
     const success = jest.spyOn(toast, 'success');
     const meetup = await factory.attrs('Meetup', { id });
 
@@ -50,7 +50,7 @@ describe('Meetup saga', () => {
   });
 
   it('should be able to create a meetup', async () => {
-    const id = faker.datatype.number();
+    const id = faker.number.int();
     const push = jest.spyOn(history, 'push');
     const meetup = await factory.attrs('Meetup', { id });
 
@@ -76,7 +76,7 @@ describe('Meetup saga', () => {
   });
 
   it('should not be able to update a meetup', async () => {
-    const id = faker.datatype.number();
+    const id = faker.number.int();
     const error = jest.spyOn(toast, 'error');
     const meetup = await factory.attrs('Meetup', { id });
 
