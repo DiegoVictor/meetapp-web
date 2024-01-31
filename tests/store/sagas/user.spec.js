@@ -6,7 +6,6 @@ import { toast } from 'react-toastify';
 import api from '~/services/api';
 import { signIn, signUp, updateUser, setToken } from '~/store/sagas/user';
 import history from '~/services/history';
-import factory from '../../utils/factory';
 import {
   signInRequest,
   signInSuccess,
@@ -14,6 +13,7 @@ import {
   updateProfileRequest,
   updateProfileSuccess,
 } from '~/store/actions/user';
+import factory from '../../utils/factory';
 
 jest.mock('react-toastify');
 jest.mock('~/services/history');

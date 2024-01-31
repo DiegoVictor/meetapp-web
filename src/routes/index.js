@@ -13,25 +13,24 @@ import { SignUp } from '~/pages/Sign/Up';
 import history from '~/services/history';
 import { Header } from '~/components/Header';
 import Route from './Route';
-import { Container } from '~/styles/theme';
 
-export default () => {
-  const signed = useSelector(state => state.signed);
+function SignInOrRedirect(signed) {
+  if (signed) {
+    return <Redirect to="/dashboard" />;
+  }
+  return <SignIn />;
+}
+
+export function Navigation() {
+  const signed = useSelector((state) => state.signed);
 
   return (
     <Router history={history}>
       <Container>
         {signed && <Header />}
-        <Route
-          path="/"
-          exact
-          component={() => {
-            if (signed) {
-              return <Redirect to="/dashboard" />;
-            }
-            return <SignIn />;
-          }}
-        />
+        <Route path="/" exact>
+          <SignInOrRedirect signed />
+        </Route>
         <Route path="/signup" component={SignUp} exact />
 
         <Route path="/dashboard" component={Dashboard} privated />
@@ -45,4 +44,4 @@ export default () => {
       </Container>
     </Router>
   );
-};
+}

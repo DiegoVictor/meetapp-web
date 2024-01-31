@@ -20,7 +20,7 @@ export function Edit() {
   const [preview, setPreview] = useState(null);
 
   const uploadBanner = useCallback(
-    e => {
+    (e) => {
       (async () => {
         const data = new FormData();
         data.append('file', e.target.files[0]);
@@ -82,7 +82,7 @@ export function Edit() {
       <Form
         initialData={meetup}
         schema={schema}
-        onSubmit={data => {
+        onSubmit={(data) => {
           dispatch(
             upsertMeetup({
               ...meetup,
@@ -114,13 +114,15 @@ export function Edit() {
           placeholder="Descrição completa"
           rows={10}
           value={meetup.description}
-          onChange={e => setMeetup({ ...meetup, description: e.target.value })}
+          onChange={(e) =>
+            setMeetup({ ...meetup, description: e.target.value })
+          }
         />
         <DatePicker
           name="date"
           placeholderText="Data do evento"
           value={meetup.date}
-          onChange={value => {
+          onChange={(value) => {
             setMeetup({
               ...meetup,
               date: value,

@@ -27,7 +27,7 @@ export function Create() {
   const [preview, setPreview] = useState(null);
 
   const uploadBanner = useCallback(
-    e => {
+    (e) => {
       (async () => {
         const data = new FormData();
         data.append('file', e.target.files[0]);
@@ -58,7 +58,7 @@ export function Create() {
       <Form
         initialData={meetup}
         schema={schema}
-        onSubmit={data => {
+        onSubmit={(data) => {
           if (typeof meetup.banner_id === 'number') {
             dispatch(
               upsertMeetup({
@@ -92,13 +92,15 @@ export function Create() {
           placeholder="Descrição completa"
           rows={10}
           value={meetup.description}
-          onChange={e => setMeetup({ ...meetup, description: e.target.value })}
+          onChange={(e) =>
+            setMeetup({ ...meetup, description: e.target.value })
+          }
         />
         <DatePicker
           name="date"
           placeholderText="Data do evento"
           value={meetup.date}
-          onChange={value => {
+          onChange={(value) => {
             setMeetup({
               ...meetup,
               date: value,

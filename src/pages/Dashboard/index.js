@@ -14,7 +14,7 @@ export function Dashboard() {
     (async () => {
       const response = await api.get('scheduled');
       setMeetups(
-        response.data.map(meetup => ({
+        response.data.map((meetup) => ({
           ...meetup,
           formatted_date: format(
             parseISO(meetup.date),
@@ -38,7 +38,7 @@ export function Dashboard() {
 
       <ul>
         <li>
-          {meetups.map(meetup => (
+          {meetups.map((meetup) => (
             <Link
               key={meetup.id}
               to={`/meetups/${meetup.id}`}

@@ -17,9 +17,7 @@ describe('Header component', () => {
   const user = {
     name: faker.person.fullName(),
   };
-  useSelector.mockImplementation(cb => {
-    return cb({ user });
-  });
+  useSelector.mockImplementation((cb) => cb({ user }));
 
   it('should be able to logout', async () => {
     const { getByTestId } = render(

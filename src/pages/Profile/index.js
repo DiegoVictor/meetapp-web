@@ -10,7 +10,7 @@ import { Container } from './styles';
 
 // Test if is empty or have the minimun length required
 Yup.addMethod(Yup.string, 'emptyMin', function emptyMin(min, message) {
-  return this.test('empty_or_min', message, value => {
+  return this.test('empty_or_min', message, (value) => {
     if (value.length > 0 && value.length < min) {
       return false;
     }
@@ -51,7 +51,7 @@ const schema = Yup.object().shape(
 
 export function Profile() {
   const dispatch = useDispatch();
-  const user = useSelector(state => state.user);
+  const user = useSelector((state) => state.user);
 
   return (
     <Container>
@@ -68,7 +68,7 @@ export function Profile() {
       <Form
         initialData={user}
         schema={schema}
-        onSubmit={data => {
+        onSubmit={(data) => {
           dispatch(updateProfileRequest(data));
         }}
       >
