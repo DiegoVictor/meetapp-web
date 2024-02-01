@@ -6,7 +6,7 @@ import { MemoryRouter, Router } from 'react-router-dom';
 
 import history from '~/services/history';
 import { signOut } from '~/store/actions/user';
-import Header from '~/components/Header';
+import { Header } from '~/components/Header';
 
 jest.mock('react-redux');
 
