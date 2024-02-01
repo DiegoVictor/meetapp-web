@@ -1,5 +1,5 @@
 # [Web] Meetapp
-[![GitHub Workflow Status](https://img.shields.io/github/workflow/status/DiegoVictor/meetapp-web/Pipeline?logo=github&style=flat-square)](https://github.com/DiegoVictor/meetapp-web/actions)
+[![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/DiegoVictor/meetapp-web/config.yml?logo=github&style=flat-square)](https://github.com/DiegoVictor/meetapp-web/actions)
 [![reactjs](https://img.shields.io/badge/reactjs-18.2.0-61dafb?style=flat-square&logo=react)](https://reactjs.org/)
 [![styled-components](https://img.shields.io/badge/styled_components-6.1.8-db7b86?style=flat-square&logo=styled-components)](https://styled-components.com/)
 [![eslint](https://img.shields.io/badge/eslint-8.56.0-4b32c3?style=flat-square&logo=eslint)](https://eslint.org/)
