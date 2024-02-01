@@ -37,11 +37,9 @@ export function Edit() {
   );
 
   const schema = Yup.object().shape({
-    banner: Yup.string().when({
-      is: !!id,
-      then: Yup.string().required('O campo banner é obrigatório'),
-      otherwise: Yup.string(),
-    }),
+    banner: id
+      ? Yup.string()
+      : Yup.string().required('O campo banner é obrigatório'),
     date: Yup.date().required('O campo data é obrigatório'),
     description: Yup.string()
       .min(10, 'Poxa, explica mais sobre esse meetup ;)')

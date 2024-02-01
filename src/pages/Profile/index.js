@@ -20,7 +20,7 @@ Yup.addMethod(Yup.string, 'emptyMin', function emptyMin(min, message) {
 
 const schema = Yup.object().shape(
   {
-    confirm_password: Yup.string().when('password', (password, field) =>
+    confirm_password: Yup.string().when('password', ([password], field) =>
       password
         ? field
             .required()
@@ -37,12 +37,12 @@ const schema = Yup.object().shape(
         6,
         'A sua senha atual parece meio curta, deveria ter no mínimo 6 caracteres'
       )
-      .when('password', (password, field) =>
+      .when('password', ([password], field) =>
         password ? field.required('Digite a senha atual') : field
       ),
     password: Yup.string()
       .emptyMin(6, 'A nova senha deve conter no mínimo 6 caracteres')
-      .when('old_password', (old_password, field) =>
+      .when('old_password', ([old_password], field) =>
         old_password ? field.required('Informe a nova senha') : field
       ),
   },
