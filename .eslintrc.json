@@ -87,7 +87,11 @@
                     [
                         "~/pages",
                         "./src/pages"
-                    ]
+                    ],
+                    [
+                      "~/routes",
+                      "./src/routes"
+                  ]
                 ]
             }
         }
