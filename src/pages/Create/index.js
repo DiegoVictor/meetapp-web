@@ -3,9 +3,9 @@ import { MdArrowBack, MdCameraAlt, MdSave } from 'react-icons/md';
 import { useDispatch } from 'react-redux';
 import { Form, Input } from '@rocketseat/unform';
 import * as Yup from 'yup';
+import { useHistory } from 'react-router-dom';
 
 import { DatePicker } from '~/components/Datepicker';
-import history from '~/services/history';
 import { upsertMeetup } from '~/store/actions/meetup';
 import api from '~/services/api';
 import { Container, ImagePicker } from './styles';
@@ -25,6 +25,7 @@ export function Create() {
   const dispatch = useDispatch();
   const [meetup, setMeetup] = useState({});
   const [preview, setPreview] = useState(null);
+  const history = useHistory();
 
   const uploadBanner = useCallback(
     (e) => {

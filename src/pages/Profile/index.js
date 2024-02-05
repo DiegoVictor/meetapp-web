@@ -2,9 +2,9 @@ import React from 'react';
 import { MdArrowBack, MdSave } from 'react-icons/md';
 import { useDispatch, useSelector } from 'react-redux';
 import { Form, Input } from '@rocketseat/unform';
+import { useHistory } from 'react-router-dom';
 import * as Yup from 'yup';
 
-import history from '~/services/history';
 import { updateProfileRequest } from '~/store/actions/user';
 import { Container } from './styles';
 
@@ -52,6 +52,7 @@ const schema = Yup.object().shape(
 export function Profile() {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
+  const history = useHistory();
 
   return (
     <Container>

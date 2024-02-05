@@ -3,13 +3,12 @@ import { parseISO } from 'date-fns';
 import { MdArrowBack, MdCameraAlt, MdSave } from 'react-icons/md';
 import { useDispatch } from 'react-redux';
 import { Form, Input } from '@rocketseat/unform';
-import { useRouteMatch } from 'react-router-dom';
+import { useRouteMatch, useHistory } from 'react-router-dom';
 import * as Yup from 'yup';
 
 import { DatePicker } from '~/components/Datepicker';
 import { upsertMeetup } from '~/store/actions/meetup';
 import api from '~/services/api';
-import history from '~/services/history';
 import { Container, ImagePicker } from './styles';
 
 export function Edit() {
@@ -18,6 +17,7 @@ export function Edit() {
   const { id } = match.params;
   const [meetup, setMeetup] = useState({});
   const [preview, setPreview] = useState(null);
+  const history = useHistory();
 
   const uploadBanner = useCallback(
     (e) => {
