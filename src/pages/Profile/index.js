@@ -2,7 +2,7 @@ import React from 'react';
 import { MdArrowBack, MdSave } from 'react-icons/md';
 import { useDispatch, useSelector } from 'react-redux';
 import { Form, Input } from '@rocketseat/unform';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 
 import { updateProfileRequest } from '~/store/actions/user';
@@ -52,7 +52,7 @@ const schema = Yup.object().shape(
 export function Profile() {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
-  const history = useHistory();
+  const navigate = useNavigate();
 
   return (
     <Container>
@@ -61,7 +61,7 @@ export function Profile() {
           data-testid="back"
           type="button"
           className="unstyled"
-          onClick={() => history.push('/')}
+          onClick={() => navigate('/')}
         >
           <MdArrowBack color="#FFF" size="24" />
         </button>

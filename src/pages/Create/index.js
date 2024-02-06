@@ -3,7 +3,7 @@ import { MdArrowBack, MdCameraAlt, MdSave } from 'react-icons/md';
 import { useDispatch } from 'react-redux';
 import { Form, Input } from '@rocketseat/unform';
 import * as Yup from 'yup';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import { DatePicker } from '~/components/Datepicker';
 import { upsertMeetup } from '~/store/actions/meetup';
@@ -25,7 +25,7 @@ export function Create() {
   const dispatch = useDispatch();
   const [meetup, setMeetup] = useState({});
   const [preview, setPreview] = useState(null);
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const uploadBanner = useCallback(
     (e) => {
@@ -51,7 +51,7 @@ export function Create() {
           data-testid="back"
           type="button"
           className="unstyled"
-          onClick={() => history.goBack()}
+          onClick={() => navigate(-1)}
         >
           <MdArrowBack color="#FFF" size="24" />
         </button>

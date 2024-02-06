@@ -3,7 +3,7 @@ import { parseISO } from 'date-fns';
 import { MdArrowBack, MdCameraAlt, MdSave } from 'react-icons/md';
 import { useDispatch } from 'react-redux';
 import { Form, Input } from '@rocketseat/unform';
-import { useRouteMatch, useHistory } from 'react-router-dom';
+import { useMatch, useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 
 import { DatePicker } from '~/components/Datepicker';
@@ -12,12 +12,12 @@ import api from '~/services/api';
 import { Container, ImagePicker } from './styles';
 
 export function Edit() {
-  const match = useRouteMatch();
+  const match = useMatch('/meetups/:id/edit');
   const dispatch = useDispatch();
   const { id } = match.params;
   const [meetup, setMeetup] = useState({});
   const [preview, setPreview] = useState(null);
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const uploadBanner = useCallback(
     (e) => {
@@ -25,7 +25,6 @@ export function Edit() {
         const data = new FormData();
         data.append('file', e.target.files[0]);
         const response = await api.post('files', data);
-
         setMeetup({
           ...meetup,
           banner_id: response.data.id,
@@ -71,7 +70,7 @@ export function Edit() {
           data-testid="back"
           type="button"
           className="unstyled"
-          onClick={() => history.goBack()}
+          onClick={() => navigate(-1)}
         >
           <MdArrowBack color="#FFF" size="24" />
         </button>

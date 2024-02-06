@@ -8,7 +8,7 @@ import {
   MdPlace,
 } from 'react-icons/md';
 import { useDispatch } from 'react-redux';
-import { Link, useRouteMatch } from 'react-router-dom';
+import { Link, useMatch } from 'react-router-dom';
 import { pt } from 'date-fns/locale';
 
 import { cancelMeetup } from '~/store/actions/meetup';
@@ -16,7 +16,7 @@ import api from '~/services/api';
 import { Container, Description, Footer, Header } from './styles';
 
 export function Details() {
-  const match = useRouteMatch();
+  const match = useMatch('/meetups/:id');
   const dispatch = useDispatch();
   const { id } = match.params;
   const [meetup, setMeetup] = useState({});
