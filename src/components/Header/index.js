@@ -4,12 +4,17 @@ import { MdExitToApp } from 'react-icons/md';
 import { useDispatch, useSelector } from 'react-redux';
 
 import Logo from '~/assets/logo.svg';
-import { signOut } from '~/store/actions/user';
+import { signOut } from '~/store/reducers/user';
 import { Container } from './styles';
 
 export function Header() {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
+  const signed = useSelector((state) => state.signed);
+
+  if (!signed) {
+    return null;
+  }
 
   return (
     <Container>
