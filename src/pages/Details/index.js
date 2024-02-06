@@ -30,7 +30,7 @@ export function Details() {
         ...m,
         date,
         description: m.description.split(/\n/).map((text, index) => (
-          <p key={String(index)} data-testid={`description_${index}`}>
+          <p key={String(`p_${index}`)} data-testid={`description_${index}`}>
             {text}
             <br />
           </p>
