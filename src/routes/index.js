@@ -1,6 +1,5 @@
 import React from 'react';
-import { Redirect, Router, Switch } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { Outlet, RouterProvider, createBrowserRouter } from 'react-router-dom';
 
 import { Container } from '~/styles/theme';
 import { Create } from '~/pages/Create';
@@ -10,38 +9,84 @@ import { Details } from '~/pages/Details';
 import { Profile } from '~/pages/Profile';
 import { SignIn } from '~/pages/Sign/In';
 import { SignUp } from '~/pages/Sign/Up';
-import history from '~/services/history';
 import { Header } from '~/components/Header';
-import Route from './Route';
+import { Guest } from './Guest';
+import { Privated } from './Privated';
 
-function SignInOrRedirect(signed) {
-  if (signed) {
-    return <Redirect to="/dashboard" />;
-  }
-  return <SignIn />;
-}
+export const router = createBrowserRouter([
+  {
+    path: '/',
+    element: (
+      <>
+        <Header />
+        <Outlet />
+      </>
+    ),
+    children: [
+      {
+        index: true,
+        element: (
+          <Guest>
+            <SignIn />
+          </Guest>
+        ),
+      },
+      {
+        path: '/signup',
+        element: (
+          <Guest>
+            <SignUp />
+          </Guest>
+        ),
+      },
+      {
+        path: '/dashboard',
+        element: (
+          <Privated>
+            <Dashboard />
+          </Privated>
+        ),
+      },
+      {
+        path: '/profile',
+        element: (
+          <Privated>
+            <Profile />
+          </Privated>
+        ),
+      },
+      {
+        path: '/create',
+        element: (
+          <Privated>
+            <Create />
+          </Privated>
+        ),
+      },
+      {
+        path: '/meetups/:id/edit',
+        element: (
+          <Privated>
+            <Edit />
+          </Privated>
+        ),
+      },
+      {
+        path: '/meetups/:id',
+        element: (
+          <Privated>
+            <Details />
+          </Privated>
+        ),
+      },
+    ],
+  },
+]);
 
 export function Navigation() {
-  const signed = useSelector((state) => state.signed);
-
   return (
-    <Router history={history}>
-      <Container>
-        {signed && <Header />}
-        <Route path="/" exact>
-          <SignInOrRedirect signed />
-        </Route>
-        <Route path="/signup" component={SignUp} exact />
-
-        <Route path="/dashboard" component={Dashboard} privated />
-        <Route path="/profile" component={Profile} privated />
-        <Route path="/create" component={Create} privated />
-
-        <Switch>
-          <Route path="/meetups/:id/edit" component={Edit} privated />
-          <Route path="/meetups/:id" component={Details} privated />
-        </Switch>
-      </Container>
-    </Router>
+    <Container>
+      <RouterProvider router={router} />
+    </Container>
   );
 }
