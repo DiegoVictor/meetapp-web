@@ -2,14 +2,14 @@ import { toast } from 'react-toastify';
 import { all, call, takeLatest } from 'redux-saga/effects';
 
 import api from '~/services/api';
-import history from '~/services/history';
+import { router } from '~/routes';
 
 export function* cancelMeetup({ payload }) {
   try {
     const { id } = payload;
     yield call(api.delete, `meetups/${id}`);
 
-    history.push('/dashboard');
+    router.navigate('/dashboard');
   } catch (err) {
     toast.error('Ops! Alguma coisa deu errado, tente novamente!');
   }
@@ -39,7 +39,7 @@ export function* upsertMeetup({ payload }) {
         localization,
         title,
       });
-      history.push(`/meetups/${response.data.id}`);
+      router.navigate(`/meetups/${response.data.id}`);
     }
   } catch (err) {
     toast.error('Ops! Alguma coisa deu errado, tente novamente!');

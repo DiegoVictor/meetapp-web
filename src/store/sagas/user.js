@@ -3,7 +3,7 @@ import { all, call, put, takeLatest } from 'redux-saga/effects';
 
 import { signInSuccess, updateProfileSuccess } from '~/store/actions/user';
 import api from '~/services/api';
-import history from '~/services/history';
+import { router } from '~/routes';
 
 export function setToken({ payload }) {
   if (!payload) {
@@ -30,7 +30,7 @@ export function* signUp({ payload }) {
   try {
     const { email, name, password } = payload;
     yield call(api.post, 'users', { email, name, password });
-    history.push('/');
+    router.navigate('/');
   } catch (err) {
     toast.error('Ops! Alguma coisa deu errado, tente novamente!');
   }
