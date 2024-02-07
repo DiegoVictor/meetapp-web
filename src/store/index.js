@@ -1,25 +1,30 @@
-import { createStore, combineReducers, applyMiddleware } from 'redux';
+import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import { all } from 'redux-saga/effects';
-import storage from 'redux-persist/lib/storage';
 import createSagaMiddleware from 'redux-saga';
-import { persistReducer } from 'redux-persist';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import user from '~/store/reducers/user';
-import signed from '~/store/reducers/signed';
+import { user } from '~/store/reducers/user';
+import { signed } from '~/store/reducers/signed';
 import sagas from '~/store/sagas';
+import persistReducer from 'redux-persist/es/persistReducer';
 
-const sagaMiddleware = createSagaMiddleware();
-const persisted = persistReducer(
+const reducers = persistReducer(
   {
-    key: 'meetapp',
-    storage,
-    whitelist: ['signed', 'user'],
+    key: 'root',
+    storage: AsyncStorage,
   },
-  combineReducers({ user, signed })
+  combineReducers({
+    user,
+    signed,
+  })
 );
 
-const enhancer = applyMiddleware(sagaMiddleware);
-const store = createStore(persisted, enhancer);
+const sagaMiddleware = createSagaMiddleware();
+const store = configureStore({
+  reducer: reducers,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(sagaMiddleware),
+});
 
 sagaMiddleware.run(function* saga() {
   return yield all(sagas);
