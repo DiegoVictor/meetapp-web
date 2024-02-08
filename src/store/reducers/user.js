@@ -1,28 +1,36 @@
 import { produce } from 'immer';
+import { createSlice } from '@reduxjs/toolkit';
 
 export const initialState = {
   token: null,
 };
 
-export default (state = initialState, action) => {
-  switch (action.type) {
-    case '@user/SIGN_IN_SUCCESS':
+const slice = createSlice({
+  name: 'user',
+  initialState,
+  reducers: {
+    signInSuccess(state, action) {
       return produce(state, (draft) => {
         draft.email = action.payload.user.email;
         draft.name = action.payload.user.name;
         draft.token = action.payload.token;
       });
-
-    case '@user/UPDATE_PROFILE_SUCCESS':
+    },
+    updateProfileSuccess(state, action) {
       return produce(state, (draft) => {
         draft.email = action.payload.email;
         draft.name = action.payload.name;
       });
+    },
+    signOut(state) {
+      return produce(state, (draft) => {
+        draft.token = null;
+        delete draft.email;
+        delete draft.name;
+      });
+    },
+  },
+});
 
-    case '@user/SIGN_OUT':
-      return initialState;
-
-    default:
-      return state;
-  }
-};
+export const { signInSuccess, updateProfileSuccess, signOut } = slice.actions;
+export const user = slice.reducer;
