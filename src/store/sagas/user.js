@@ -1,7 +1,11 @@
 import { toast } from 'react-toastify';
 import { all, call, put, takeLatest } from 'redux-saga/effects';
 
-import { signInSuccess, updateProfileSuccess } from '~/store/actions/user';
+import {
+  signInSuccess as userSignInSuccess,
+  updateProfileSuccess,
+} from '~/store/reducers/user';
+import { signInSuccess } from '~/store/reducers/signed';
 import api from '~/services/api';
 import { router } from '~/routes';
 
@@ -20,7 +24,8 @@ export function* signIn({ payload }) {
     const { token, user } = response.data;
 
     api.defaults.headers.Authorization = `Bearer ${token}`;
-    yield put(signInSuccess(token, user));
+    yield put(userSignInSuccess(token, user));
+    yield put(signInSuccess());
   } catch (err) {
     toast.error('Ops! Alguma coisa deu errado, tente novamente!');
   }
