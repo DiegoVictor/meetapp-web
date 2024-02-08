@@ -1,14 +1,19 @@
+import { createSlice } from '@reduxjs/toolkit';
+
 export const initialState = false;
 
-export default (state = initialState, action) => {
-  switch (action.type) {
-    case '@user/SIGN_IN_SUCCESS':
+const slice = createSlice({
+  name: 'user',
+  initialState,
+  reducers: {
+    signInSuccess() {
       return true;
-
-    case '@user/SIGN_OUT':
+    },
+    signOut() {
       return false;
+    },
+  },
+});
 
-    default:
-      return state;
-  }
-};
+export const { signInSuccess, signOut } = slice.actions;
+export const signed = slice.reducer;
