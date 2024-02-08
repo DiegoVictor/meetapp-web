@@ -1,32 +1,46 @@
 import React from 'react';
 import { render, fireEvent, waitFor } from '@testing-library/react';
-import { useDispatch, useSelector } from 'react-redux';
 import { faker } from '@faker-js/faker';
-import { MemoryRouter, Router } from 'react-router-dom';
+import { RouterProvider, createMemoryRouter } from 'react-router-dom';
 
-import history from '~/services/history';
-import { signOut } from '~/store/actions/user';
+import { signOut } from '~/store/reducers/user';
 import { Header } from '~/components/Header';
 
-jest.mock('react-redux');
+const mockUseDispatch = jest.fn();
+const mockUseSelector = jest.fn();
+jest.mock('react-redux', () => ({
+  ...jest.requireActual('react-redux'),
+  useDispatch: () => mockUseDispatch(),
+  useSelector: (cb) => mockUseSelector(cb),
+}));
+
+const dispatch = jest.fn();
+mockUseDispatch.mockReturnValue(dispatch);
+
+const user = {
+  name: faker.person.fullName(),
+};
+mockUseSelector.mockImplementation((cb) => cb({ user, signed: true }));
 
 describe('Header component', () => {
-  const dispatch = jest.fn();
-  useDispatch.mockReturnValue(dispatch);
-
-  const user = {
-    name: faker.person.fullName(),
-  };
-  useSelector.mockImplementation((cb) => cb({ user }));
-
   it('should be able to logout', async () => {
-    const { getByTestId } = render(
-      <MemoryRouter>
-        <Header />
-      </MemoryRouter>
-    );
+    const router = createMemoryRouter([
+      {
+        path: '/',
+        element: <Header />,
+      },
+      {
+        path: '/dashboard',
+        element: <div>Dashboard</div>,
+      },
+      {
+        path: '/profile',
+        element: <div>Profile</div>,
+      },
+    ]);
+    const { getByTestId } = render(<RouterProvider router={router} />);
 
-    await waitFor(() => expect(getByTestId('logout')).toBeInTheDocument());
+    await waitFor(() => getByTestId('logout'));
 
     fireEvent.click(getByTestId('logout'));
 
@@ -34,25 +48,45 @@ describe('Header component', () => {
   });
 
   it('should be able to navigate to dashboard', async () => {
-    const { getByTestId } = render(
-      <Router history={history}>
-        <Header />
-      </Router>
-    );
+    const router = createMemoryRouter([
+      {
+        path: '/',
+        element: <Header />,
+      },
+      {
+        path: '/dashboard',
+        element: <div>Dashboard</div>,
+      },
+      {
+        path: '/profile',
+        element: <div>Profile</div>,
+      },
+    ]);
+    const { getByTestId } = render(<RouterProvider router={router} />);
 
     await waitFor(() => expect(getByTestId('dashboard')).toBeInTheDocument());
 
     fireEvent.click(getByTestId('dashboard'));
 
-    expect(history.location.pathname).toBe('/dashboard');
+    expect(router.state.location.pathname).toBe('/dashboard');
   });
 
   it('should be able to see logged in user name', async () => {
-    const { getByText } = render(
-      <MemoryRouter>
-        <Header />
-      </MemoryRouter>
-    );
+    const router = createMemoryRouter([
+      {
+        path: '/',
+        element: <Header />,
+      },
+      {
+        path: '/dashboard',
+        element: <div>Dashboard</div>,
+      },
+      {
+        path: '/profile',
+        element: <div>Profile</div>,
+      },
+    ]);
+    const { getByText } = render(<RouterProvider router={router} />);
 
     expect(getByText(user.name)).toBeInTheDocument();
   });
