@@ -5,23 +5,28 @@ import { toast } from 'react-toastify';
 
 import { cancelMeetup, upsertMeetup } from '~/store/sagas/meetup';
 import api from '~/services/api';
-import history from '~/services/history';
 import * as Actions from '~/store/actions/meetup';
 import factory from '../../utils/factory';
 
 jest.mock('react-toastify');
 
-describe('Meetup saga', () => {
-  const apiMock = new MockAdapter(api);
+const mockNavigate = jest.fn();
+jest.mock('~/routes', () => ({
+  router: {
+    navigate: (path) => mockNavigate(path),
+  },
+}));
 
+const apiMock = new MockAdapter(api);
+
+describe('Meetup saga', () => {
   it('should be able to cancel a meetup', async () => {
     const id = faker.number.int();
-    const push = jest.spyOn(history, 'push');
 
     apiMock.onDelete(`meetups/${id}`).reply(200, { id });
     await runSaga({}, cancelMeetup, Actions.cancelMeetup(id)).toPromise();
 
-    expect(push).toHaveBeenCalledWith('/dashboard');
+    expect(mockNavigate).toHaveBeenCalledWith('/dashboard');
   });
 
   it('should not be able cancel a meetup', async () => {
@@ -51,7 +56,6 @@ describe('Meetup saga', () => {
 
   it('should be able to create a meetup', async () => {
     const id = faker.number.int();
-    const push = jest.spyOn(history, 'push');
     const meetup = await factory.attrs('Meetup', { id });
 
     delete meetup.id;
@@ -59,7 +63,7 @@ describe('Meetup saga', () => {
     apiMock.onPost(`meetups`).reply(200, { id });
     await runSaga({}, upsertMeetup, Actions.upsertMeetup(meetup)).toPromise();
 
-    expect(push).toHaveBeenCalledWith(`/meetups/${id}`);
+    expect(mockNavigate).toHaveBeenCalledWith(`/meetups/${id}`);
   });
 
   it('should be able to create a meetup', async () => {

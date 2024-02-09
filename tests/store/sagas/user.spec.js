@@ -5,22 +5,26 @@ import { toast } from 'react-toastify';
 
 import api from '~/services/api';
 import { signIn, signUp, updateUser, setToken } from '~/store/sagas/user';
-import history from '~/services/history';
 import {
   signInRequest,
-  signInSuccess,
   signUpRequest,
   updateProfileRequest,
-  updateProfileSuccess,
 } from '~/store/actions/user';
+import { signInSuccess, updateProfileSuccess } from '~/store/reducers/user';
 import factory from '../../utils/factory';
 
 jest.mock('react-toastify');
-jest.mock('~/services/history');
+
+const mockNavigate = jest.fn();
+jest.mock('~/routes', () => ({
+  router: {
+    navigate: (path) => mockNavigate(path),
+  },
+}));
+
+const apiMock = new MockAdapter(api);
 
 describe('User saga', () => {
-  const apiMock = new MockAdapter(api);
-
   beforeEach(() => {
     if (typeof api.defaults.headers.Authorization === 'string') {
       delete api.defaults.headers.Authorization;
@@ -30,6 +34,7 @@ describe('User saga', () => {
   it('should be able to login', async () => {
     const token = faker.string.alphanumeric(32);
     const dispatch = jest.fn();
+
     const user = await factory.attrs('User');
 
     apiMock.onPost('sessions').reply(200, { token, user });
@@ -63,12 +68,12 @@ describe('User saga', () => {
   });
 
   it('should be able to signup', async () => {
-    const push = jest.spyOn(history, 'push');
     const { name, email, password } = await factory.attrs('User');
 
     apiMock.onPost('users').reply(200);
     await runSaga({}, signUp, signUpRequest(email, name, password)).toPromise();
-    expect(push).toHaveBeenCalledWith('/');
+
+    expect(mockNavigate).toHaveBeenCalledWith('/');
   });
 
   it('should not be able to signup', async () => {
