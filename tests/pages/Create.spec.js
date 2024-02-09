@@ -1,37 +1,65 @@
 import React from 'react';
 import { faker } from '@faker-js/faker';
 import { act, render, fireEvent } from '@testing-library/react';
-import { useDispatch } from 'react-redux';
 import MockAdapter from 'axios-mock-adapter';
+import { RouterProvider, createMemoryRouter } from 'react-router-dom';
 
-import history from '~/services/history';
 import { Create } from '~/pages/Create';
 import api from '~/services/api';
 import { upsertMeetup } from '~/store/actions/meetup';
 import factory from '../utils/factory';
 
-jest.mock('react-redux');
+const mockUseDispatch = jest.fn();
+jest.mock('react-redux', () => ({
+  ...jest.requireActual('react-redux'),
+  useDispatch: () => mockUseDispatch(),
+}));
+
+const mockUseNavigate = jest.fn();
+jest.mock('react-router-dom', () => ({
+  ...jest.requireActual('react-router-dom'),
+  useNavigate: () => mockUseNavigate(),
+}));
+
+const apiMock = new MockAdapter(api);
 
 describe('Create page', () => {
-  const apiMock = new MockAdapter(api);
   it('should be able to go back', async () => {
     const id = faker.number.int();
     const url = faker.image.url();
 
     apiMock.onPost('files').reply(200, { id, url });
 
-    const { getByTestId } = render(<Create />);
+    const navigate = jest.fn();
+    mockUseNavigate.mockReturnValueOnce(navigate);
+
+    const router = createMemoryRouter([
+      {
+        path: '/',
+        element: <Create />,
+      },
+    ]);
+    const { getByTestId } = render(<RouterProvider router={router} />);
 
     fireEvent.click(getByTestId('back'));
-    expect(history.location.pathname).toBe('/');
+    expect(navigate).toHaveBeenCalled();
   });
 
   it('should be able to upload image', async () => {
     const id = faker.number.int();
     const url = faker.image.url();
+
     apiMock.onPost('files').reply(200, { id, url });
 
-    const { getByTestId, getByAltText } = render(<Create />);
+    const router = createMemoryRouter([
+      {
+        path: '/',
+        element: <Create />,
+      },
+    ]);
+    const { getByTestId, getByAltText } = render(
+      <RouterProvider router={router} />
+    );
 
     await act(async () => {
       fireEvent.change(getByTestId('file'), {
@@ -47,13 +75,21 @@ describe('Create page', () => {
       await factory.attrs('Meetup');
 
     const dispatch = jest.fn();
-    useDispatch.mockReturnValue(dispatch);
+    mockUseDispatch.mockReturnValue(dispatch);
 
     date.setMilliseconds(0);
 
     apiMock.onPost('files').reply(200, { id: banner_id, url });
 
-    const { getByTestId, getByPlaceholderText } = render(<Create />);
+    const router = createMemoryRouter([
+      {
+        path: '/',
+        element: <Create />,
+      },
+    ]);
+    const { getByTestId, getByPlaceholderText } = render(
+      <RouterProvider router={router} />
+    );
 
     fireEvent.change(getByPlaceholderText('Título do Meetup'), {
       target: { value: title },
@@ -99,13 +135,21 @@ describe('Create page', () => {
       await factory.attrs('Meetup');
 
     const dispatch = jest.fn();
-    useDispatch.mockReturnValue(dispatch);
+    mockUseDispatch.mockReturnValue(dispatch);
 
     date.setMilliseconds(0);
 
     apiMock.onPost('files').reply(200, {});
 
-    const { getByTestId, getByPlaceholderText } = render(<Create />);
+    const router = createMemoryRouter([
+      {
+        path: '/',
+        element: <Create />,
+      },
+    ]);
+    const { getByTestId, getByPlaceholderText } = render(
+      <RouterProvider router={router} />
+    );
 
     fireEvent.change(getByPlaceholderText('Título do Meetup'), {
       target: { value: title },
