@@ -1,18 +1,17 @@
 import React from 'react';
 import { format } from 'date-fns';
-import { MemoryRouter, Router } from 'react-router-dom';
-import { fireEvent, render, act } from '@testing-library/react';
+import { RouterProvider, createMemoryRouter } from 'react-router-dom';
+import { fireEvent, render, act, waitFor } from '@testing-library/react';
 import MockAdapter from 'axios-mock-adapter';
 import { pt } from 'date-fns/locale';
 
 import api from '~/services/api';
-import history from '~/services/history';
 import { Dashboard } from '~/pages/Dashboard';
 import factory from '../utils/factory';
 
-describe('Dashboard page', () => {
-  const apiMock = new MockAdapter(api);
+const apiMock = new MockAdapter(api);
 
+describe('Dashboard page', () => {
   it("should be able to go to create meetup's page", async () => {
     const meetups = await factory.attrsMany('Meetup', 3);
     apiMock.onGet(`scheduled`).reply(
@@ -23,22 +22,25 @@ describe('Dashboard page', () => {
       }))
     );
 
-    const { getByTestId } = render(
-      <Router history={history}>
-        <Dashboard />
-      </Router>
-    );
+    const router = createMemoryRouter([
+      {
+        path: '/',
+        element: <Dashboard />,
+      },
+      {
+        path: `/create`,
+        element: <div>Create</div>,
+      },
+    ]);
+    const { getByTestId } = render(<RouterProvider router={router} />);
 
     await act(async () => {
       fireEvent.click(getByTestId('new'));
     });
-    expect(history.location.pathname).toBe('/create');
+    expect(router.state.location.pathname).toBe('/create');
   });
 
   it('should be able to get a meetups list', async () => {
-    let getByTestId;
-    let getByTitle;
-
     const meetups = await factory.attrsMany('Meetup', 3);
 
     apiMock.onGet(`scheduled`).reply(
@@ -49,15 +51,23 @@ describe('Dashboard page', () => {
       }))
     );
 
-    await act(async () => {
-      const component = render(
-        <MemoryRouter>
-          <Dashboard />
-        </MemoryRouter>
-      );
-      getByTestId = component.getByTestId;
-      getByTitle = component.getByTitle;
-    });
+    const router = createMemoryRouter([
+      {
+        path: '/',
+        element: <Dashboard />,
+      },
+      {
+        path: `/create`,
+        element: <div>Create</div>,
+      },
+    ]);
+
+    const { getByTestId, getByTitle } = render(
+      <RouterProvider router={router} />
+    );
+
+    const [{ title }] = meetups;
+    await waitFor(() => getByTitle(title));
 
     meetups.forEach((meetup) => {
       expect(getByTitle(meetup.title)).toHaveTextContent(meetup.title);
@@ -68,21 +78,29 @@ describe('Dashboard page', () => {
   });
 
   it('should be able to navigate to meetup details', async () => {
-    let getByTestId;
     const meetup = await factory.attrs('Meetup');
 
     apiMock.onGet(`scheduled`).reply(200, [meetup]);
 
-    await act(async () => {
-      const component = render(
-        <Router history={history}>
-          <Dashboard />
-        </Router>
-      );
-      getByTestId = component.getByTestId;
-    });
+    const router = createMemoryRouter([
+      {
+        path: '/',
+        element: <Dashboard />,
+      },
+      {
+        path: `/meetups/${meetup.id}`,
+        element: <div>Meetup</div>,
+      },
+      {
+        path: `/create`,
+        element: <div>Create</div>,
+      },
+    ]);
+    const { getByTestId } = render(<RouterProvider router={router} />);
+
+    await waitFor(() => getByTestId(`meetup_${meetup.id}`));
 
     fireEvent.click(getByTestId(`meetup_${meetup.id}`));
-    expect(history.location.pathname).toBe(`/meetups/${meetup.id}`);
+    expect(router.state.location.pathname).toBe(`/meetups/${meetup.id}`);
   });
 });
