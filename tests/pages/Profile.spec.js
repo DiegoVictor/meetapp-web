@@ -1,36 +1,48 @@
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Router, MemoryRouter } from 'react-router-dom';
+import { createMemoryRouter, RouterProvider } from 'react-router-dom';
 import { act, fireEvent, render } from '@testing-library/react';
 import { faker } from '@faker-js/faker';
 
-import history from '~/services/history';
 import { Profile } from '~/pages/Profile';
 import { updateProfileRequest } from '~/store/actions/user';
 import factory from '../utils/factory';
 
-jest.mock('react-redux');
-jest.mock('~/services/history');
+const mockUseDispatch = jest.fn();
+const mockUseSelector = jest.fn();
+jest.mock('react-redux', () => ({
+  ...jest.requireActual('react-redux'),
+  useDispatch: () => mockUseDispatch(),
+  useSelector: (cb) => mockUseSelector(cb),
+}));
+
+const mockUseNavigate = jest.fn();
+jest.mock('react-router-dom', () => ({
+  ...jest.requireActual('react-router-dom'),
+  useNavigate: (path) => mockUseNavigate(path),
+}));
 
 describe('Profile page', () => {
   it('should be able to back to previous page', async () => {
-    const push = jest.spyOn(history, 'push');
     const { name, email } = await factory.attrs('User');
 
-    useSelector.mockImplementation((cb) =>
+    mockUseSelector.mockImplementation((cb) =>
       cb({
         user: { name, email },
       })
     );
 
-    const { getByTestId } = render(
-      <Router history={history}>
-        <Profile />
-      </Router>
-    );
+    const navigate = jest.fn();
+    mockUseNavigate.mockReturnValueOnce(navigate);
+    const router = createMemoryRouter([
+      {
+        path: '/',
+        element: <Profile />,
+      },
+    ]);
+    const { getByTestId } = render(<RouterProvider router={router} />);
 
     fireEvent.click(getByTestId('back'));
-    expect(push).toHaveBeenCalledWith('/');
+    expect(navigate).toHaveBeenCalledWith('/');
   });
 
   it("should be able to update profile's email and name", async () => {
@@ -42,16 +54,19 @@ describe('Profile page', () => {
     };
 
     const dispatch = jest.fn();
-    useDispatch.mockReturnValue(dispatch);
-    useSelector.mockImplementation((cb) =>
+    mockUseDispatch.mockReturnValue(dispatch);
+
+    mockUseSelector.mockImplementation((cb) =>
       cb({ user: { name, email, ...passwords } })
     );
 
-    const { getByTestId } = render(
-      <MemoryRouter>
-        <Profile />
-      </MemoryRouter>
-    );
+    const router = createMemoryRouter([
+      {
+        path: '/',
+        element: <Profile />,
+      },
+    ]);
+    const { getByTestId } = render(<RouterProvider router={router} />);
 
     await act(async () => {
       fireEvent.submit(getByTestId('form'));
@@ -71,16 +86,19 @@ describe('Profile page', () => {
     };
 
     const dispatch = jest.fn();
-    useDispatch.mockReturnValue(dispatch);
-    useSelector.mockImplementation((cb) =>
+    mockUseDispatch.mockReturnValue(dispatch);
+
+    mockUseSelector.mockImplementation((cb) =>
       cb({ user: { name, email, ...passwords } })
     );
 
-    const { getByTestId } = render(
-      <MemoryRouter>
-        <Profile />
-      </MemoryRouter>
-    );
+    const router = createMemoryRouter([
+      {
+        path: '/',
+        element: <Profile />,
+      },
+    ]);
+    const { getByTestId } = render(<RouterProvider router={router} />);
 
     await act(async () => {
       fireEvent.submit(getByTestId('form'));
@@ -93,10 +111,15 @@ describe('Profile page', () => {
 
   it('should not be able to update the profile', async () => {
     const password = faker.internet.password(3);
+
+    const router = createMemoryRouter([
+      {
+        path: '/',
+        element: <Profile />,
+      },
+    ]);
     const { getByText, getByTestId, getByPlaceholderText } = render(
-      <MemoryRouter>
-        <Profile />
-      </MemoryRouter>
+      <RouterProvider router={router} />
     );
 
     fireEvent.change(getByPlaceholderText('Nova senha'), {
