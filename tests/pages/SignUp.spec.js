@@ -1,26 +1,32 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
-import { MemoryRouter, Router } from 'react-router-dom';
+import { RouterProvider, createMemoryRouter } from 'react-router-dom';
 import { fireEvent, render, act } from '@testing-library/react';
 
 import { signUpRequest } from '~/store/actions/user';
-import history from '~/services/history';
 import { SignUp } from '~/pages/Sign/Up';
 import factory from '../utils/factory';
 
-jest.mock('react-redux');
+const mockUseDispatch = jest.fn();
+jest.mock('react-redux', () => ({
+  ...jest.requireActual('react-redux'),
+  useDispatch: () => mockUseDispatch(),
+}));
 
 describe('SignUp page', () => {
   it('should be able to register', async () => {
     const { name, email, password } = await factory.attrs('User');
 
     const dispatch = jest.fn();
-    useDispatch.mockReturnValue(dispatch);
+    mockUseDispatch.mockReturnValue(dispatch);
 
+    const router = createMemoryRouter([
+      {
+        path: '/',
+        element: <SignUp />,
+      },
+    ]);
     const { getByPlaceholderText, getByTestId } = render(
-      <MemoryRouter>
-        <SignUp />
-      </MemoryRouter>
+      <RouterProvider router={router} />
     );
 
     fireEvent.change(getByPlaceholderText('Nome completo'), {
@@ -43,13 +49,16 @@ describe('SignUp page', () => {
   });
 
   it('should be able to click on signin link', async () => {
-    const { getByText } = render(
-      <Router history={history}>
-        <SignUp />
-      </Router>
-    );
+    const router = createMemoryRouter([
+      {
+        path: '/',
+        element: <SignUp />,
+      },
+    ]);
+
+    const { getByText } = render(<RouterProvider router={router} />);
 
     fireEvent.click(getByText('Já tenho conta'));
-    expect(history.location.pathname).toBe('/');
+    expect(router.state.location.pathname).toBe('/');
   });
 });
