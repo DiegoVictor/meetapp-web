@@ -1,8 +1,7 @@
 import React from 'react';
 import { format } from 'date-fns';
-import { useDispatch } from 'react-redux';
-import { MemoryRouter, Router } from 'react-router-dom';
-import { fireEvent, render, act, waitFor } from '@testing-library/react';
+import { RouterProvider, createMemoryRouter } from 'react-router-dom';
+import { fireEvent, render, waitFor } from '@testing-library/react';
 import { faker } from '@faker-js/faker';
 import MockAdapter from 'axios-mock-adapter';
 import { pt } from 'date-fns/locale';
@@ -10,38 +9,51 @@ import { pt } from 'date-fns/locale';
 import { cancelMeetup } from '~/store/actions/meetup';
 import api from '~/services/api';
 import { Details } from '~/pages/Details';
-import history from '~/services/history';
 import factory from '../utils/factory';
 
-jest.mock('react-redux');
+const mockUseDispatch = jest.fn();
+jest.mock('react-redux', () => ({
+  ...jest.requireActual('react-redux'),
+  useDispatch: () => mockUseDispatch(),
+}));
 
 const id = faker.number.int();
-const mockedUseRouteMatch = () => ({
+const mockUseMatch = () => ({
   params: { id },
 });
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
-  useRouteMatch: () => mockedUseRouteMatch(),
+  useMatch: () => mockUseMatch(),
 }));
 
-describe('Detail page', () => {
-  const apiMock = new MockAdapter(api);
+const apiMock = new MockAdapter(api);
 
+describe('Detail page', () => {
   it('should be able to go to edit meetup page', async () => {
     const meetup = await factory.attrs('Meetup');
     apiMock.onGet(`scheduled/${id}`).reply(200, meetup);
 
-    const { getByText } = render(
-      <Router history={history}>
-        <Details />
-      </Router>
-    );
+    const router = createMemoryRouter([
+      {
+        path: '/',
+        element: <Details />,
+      },
+      {
+        path: `/meetups/${id}/edit`,
+        element: <div>Meetup</div>,
+      },
+      {
+        path: `/dashboard`,
+        element: <div>Dashboard</div>,
+      },
+    ]);
+    const { getByText } = render(<RouterProvider router={router} />);
 
-    await waitFor(() => expect(getByText('Editar')).toBeInTheDocument());
+    await waitFor(() => getByText('Editar'));
 
     fireEvent.click(getByText('Editar'));
 
-    expect(history.location.pathname).toBe(`/meetups/${id}/edit`);
+    expect(router.state.location.pathname).toBe(`/meetups/${id}/edit`);
   });
 
   it('should be able to delete a meetup', async () => {
@@ -49,15 +61,25 @@ describe('Detail page', () => {
     const meetup = await factory.attrs('Meetup');
 
     apiMock.onGet(`scheduled/${id}`).reply(200, meetup);
-    useDispatch.mockReturnValue(dispatch);
+    mockUseDispatch.mockReturnValue(dispatch);
 
-    const { getByText } = render(
-      <MemoryRouter>
-        <Details />
-      </MemoryRouter>
-    );
+    const router = createMemoryRouter([
+      {
+        path: '/',
+        element: <Details />,
+      },
+      {
+        path: `/meetups/${id}/edit`,
+        element: <div>Meetup</div>,
+      },
+      {
+        path: `/dashboard`,
+        element: <div>Dashboard</div>,
+      },
+    ]);
+    const { getByText } = render(<RouterProvider router={router} />);
 
-    await waitFor(() => expect(getByText('Cancelar')).toBeInTheDocument());
+    await waitFor(() => getByText('Cancelar'));
 
     fireEvent.click(getByText('Cancelar'));
 
@@ -65,21 +87,28 @@ describe('Detail page', () => {
   });
 
   it('should be able to see meetup data', async () => {
-    let getByAltText;
-    let getByTestId;
-
     const meetup = await factory.attrs('Meetup');
     apiMock.onGet(`scheduled/${id}`).reply(200, meetup);
 
-    await act(async () => {
-      const component = render(
-        <Router history={history}>
-          <Details />
-        </Router>
-      );
-      getByAltText = component.getByAltText;
-      getByTestId = component.getByTestId;
-    });
+    const router = createMemoryRouter([
+      {
+        path: '/',
+        element: <Details />,
+      },
+      {
+        path: `/meetups/${id}/edit`,
+        element: <div>Meetup</div>,
+      },
+      {
+        path: `/dashboard`,
+        element: <div>Dashboard</div>,
+      },
+    ]);
+    const { getByAltText, getByTestId } = render(
+      <RouterProvider router={router} />
+    );
+
+    await waitFor(() => getByAltText(meetup.title));
 
     expect(getByAltText(meetup.title)).toHaveAttribute(
       'src',
