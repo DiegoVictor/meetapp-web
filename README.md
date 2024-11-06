@@ -6,7 +6,7 @@
 [![airbnb-style](https://flat.badgen.net/badge/style-guide/airbnb/ff5a5f?icon=airbnb)](https://github.com/airbnb/javascript)
 [![jest](https://img.shields.io/badge/jest-29.7.0-brightgreen?style=flat-square&logo=jest)](https://jestjs.io/)
 [![coverage](https://img.shields.io/codecov/c/gh/DiegoVictor/meetapp-web?logo=codecov&style=flat-square)](https://codecov.io/gh/DiegoVictor/meetapp-web)
-[![MIT License](https://img.shields.io/badge/license-MIT-green?style=flat-square)](https://github.com/DiegoVictor/meetapp-web/blob/master/LICENSE)
+[![MIT License](https://img.shields.io/badge/license-MIT-green?style=flat-square)](https://raw.githubusercontent.com/DiegoVictor/meetapp-web/refs/heads/main/LICENSE)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
 
 This web version allow users to register yourself, and create, edit and delete your meetups. All the resources used by this application comes from its [`API`](https://github.com/DiegoVictor/meetapp-api).
