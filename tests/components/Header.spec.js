@@ -17,13 +17,29 @@ jest.mock('react-redux', () => ({
 const dispatch = jest.fn();
 mockUseDispatch.mockReturnValue(dispatch);
 
-const user = {
-  name: faker.person.fullName(),
-};
-mockUseSelector.mockImplementation((cb) => cb({ user, signed: true }));
-
 describe('Header component', () => {
+  it('should not be able to see header if not logged in', async () => {
+    mockUseSelector.mockImplementationOnce((cb) => cb({ signed: false }));
+
+    const router = createMemoryRouter([
+      {
+        path: '/',
+        element: <Header />,
+      },
+    ]);
+    const { getByTestId } = render(<RouterProvider router={router} />);
+
+    expect(getByTestId('unsigned')).toBeInTheDocument();
+  });
+
   it('should be able to logout', async () => {
+    const user = {
+      name: faker.person.fullName(),
+    };
+    mockUseSelector
+      .mockImplementationOnce((cb) => cb({ user, signed: true }))
+      .mockImplementationOnce((cb) => cb({ user, signed: true }));
+
     const router = createMemoryRouter([
       {
         path: '/',
@@ -48,6 +64,13 @@ describe('Header component', () => {
   });
 
   it('should be able to navigate to dashboard', async () => {
+    const user = {
+      name: faker.person.fullName(),
+    };
+    mockUseSelector
+      .mockImplementationOnce((cb) => cb({ user, signed: true }))
+      .mockImplementationOnce((cb) => cb({ user, signed: true }));
+
     const router = createMemoryRouter([
       {
         path: '/',
@@ -72,6 +95,13 @@ describe('Header component', () => {
   });
 
   it('should be able to see logged in user name', async () => {
+    const user = {
+      name: faker.person.fullName(),
+    };
+    mockUseSelector
+      .mockImplementationOnce((cb) => cb({ user, signed: true }))
+      .mockImplementationOnce((cb) => cb({ user, signed: true }));
+
     const router = createMemoryRouter([
       {
         path: '/',
