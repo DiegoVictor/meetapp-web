@@ -13,7 +13,7 @@ export function Header() {
   const signed = useSelector((state) => state.signed);
 
   if (!signed) {
-    return null;
+    return <div data-testid="unsigned" />;
   }
 
   return (
